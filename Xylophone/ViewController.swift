@@ -17,25 +17,13 @@ class ViewController: UIViewController {
     }
 
     @IBAction func keyPressed(_ sender: UIButton) {
-        playSound()
+        playSound(keyCharacter: (sender.currentTitle?.first)!)
     }
     
-    func playSound() {
-        guard let url = Bundle.main.url(forResource: "C", withExtension: "wav") else
-        {return}
-        
-        do {
-            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-            try AVAudioSession.sharedInstance().setActive(true)
-            
-            player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
-            
-            guard let player = player else {return}
-            
-            player.play()
-        } catch let error{
-            print(error.localizedDescription)
-        }
+    func playSound(keyCharacter: Character) {
+        let url = Bundle.main.url(forResource: keyCharacter.description, withExtension: "wav")
+        player = try! AVAudioPlayer(contentsOf: url!)
+        player?.play()
     }
     
 }
