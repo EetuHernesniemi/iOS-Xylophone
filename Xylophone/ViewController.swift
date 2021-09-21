@@ -13,16 +13,18 @@ class ViewController: UIViewController {
     var player: AVAudioPlayer?
     
     override func viewDidLoad() {
+        setupPlayerWithKey(keyCharacter: "C")
         super.viewDidLoad()
         
     }
 
     @IBAction func keyPressed(_ sender: UIButton) {
-        playSound(keyCharacter: (sender.currentTitle?.first)!)
+        setupPlayerWithKey(keyCharacter: (sender.currentTitle?.first)!)
+        player?.play()
         visualizeKeyPress(button: sender)
     }
     
-    func playSound(keyCharacter: Character) {
+    func setupPlayerWithKey(keyCharacter: Character){
         guard let url = Bundle.main.url(forResource: keyCharacter.description, withExtension: "wav") else {
                 print("Error. Audio resource url not found")
                 return
@@ -32,7 +34,7 @@ class ViewController: UIViewController {
                 try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
                 try AVAudioSession.sharedInstance().setActive(true)
                 player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
-                player!.play() // no need for prepareToPlay because prepareToPlay is happen automatically when calling play()
+                player!.prepareToPlay()
             } catch let error as NSError {
                 print("Error in playSound func")
                 print("Error: \(error.localizedDescription)")
