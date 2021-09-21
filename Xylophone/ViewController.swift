@@ -19,6 +19,7 @@ class ViewController: UIViewController {
 
     @IBAction func keyPressed(_ sender: UIButton) {
         playSound(keyCharacter: (sender.currentTitle?.first)!)
+        visualizeKeyPress(button: sender)
     }
     
     func playSound(keyCharacter: Character) {
@@ -36,7 +37,14 @@ class ViewController: UIViewController {
                 print("Error in playSound func")
                 print("Error: \(error.localizedDescription)")
             }
-        
+    }
+    
+    func visualizeKeyPress(button: UIButton){
+        button.alpha = 0.5
+        let seconds = 0.2
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            button.alpha = 1.0
+        }
     }
     
 }
